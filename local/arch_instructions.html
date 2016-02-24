@@ -3,11 +3,17 @@
    <title>Setting up the Qt Arch SDK for the Raspberry Pi 2</title>
 </head>
 <body>
+  <li>Install Arch on a fresh sd card following the following instructions</li>
   <li><a href="http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2#qt-platform_tabs-ui-tabs2">Install Arch on your Raspberry Pi 2</a></li>
-  <li><a href="http://s3.amazonaws.com/spuddrepo/setup_qpi.sh">Run this script on your Raspberry Pi 2 Arch Install</a></li>
-  <li><a href="http://s3.amazonaws.com/spuddrepo/setup_qpi_host.sh">Run this script on your Arch host</a></li>
+  <li>Boot the Raspberry Pi 2</li>
+  <li>Download and run the following script</li>
+  <li><a href="http://s3.amazonaws.com/spuddrepo/arch/setup_qpi.sh">Run this script on your Raspberry Pi 2 Arch Install</a></li>
+  <li>I personally normally allow root ssh login and then grab the script via curl</li>
+  <li>curl http://s3.amazonaws.com/spuddrepo/arch/setup_qpi.sh > setup_qpi.sh</li>
+  <li>bash setup_qpi.sh</li>
+  <li>I would strongly recommend increasing the video ram to 512 in /boot/config.txt (The compositor alone requires more than the default 64)</li>
+  <li><a href="http://s3.amazonaws.com/spuddrepo/arch/setup_qpi_host.sh">Run this script on your Arch host</a></li>
   <li>Mount your Arch sysroot on your host (recommend NFS, mounting "/" under /mnt/pi)</li>
-  <li>Fire up Qt Creator</li>
-  <li>Profit</li>
+  <li>You are now set to use Qt Creator to develop and deploy to your Raspberry Pi 2</li>
 </body>
 <html>
