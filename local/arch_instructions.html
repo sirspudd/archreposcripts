@@ -3,12 +3,25 @@
    <title>Setting up the Qt Arch SDK for the Raspberry Pi 2</title>
 </head>
 <body>
-  <li>Install Arch on a fresh sd card following the following instructions</li>
-  <li><a href="http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2#qt-platform_tabs-ui-tabs2">Install Arch on your Raspberry Pi 2</a></li>
+<h1>Overview</h1>
+Qt can run quite nicely on the Pi(s), but the packaged versions shipped with most distros use Mesa out of the box, and people tend to run X11 on the pi for graphical purposes, and that seems like a damn shame.
+
+The point of this exercise is to make 2 packages conveniently available, one for the Raspberry Pi 2 and one for the host machine, which once installed allow you to crosscompile for the Raspberry Pi 2 from your Arch host machine.
+
+The AUR recipes used to generate the installed packages are here (incase you are into that kind of thing):
+
+<h2>AUR recipes</h2>
+<li><a href=https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=qt-sdk-raspberry-pi2>qt-sdk-raspberry-pi2-target-libs,qt-sdk-raspberry-pi2</a></li>
+<li><a href=https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=pi-compositor>pi-compositor</a></li>
+
+<br>
+Or you can simply proceed to making it happen by following these instructions. Clearly you proceed at your own risk, and neither myself nor my employer provide any binding guarantees or assurances. Kiss your poodle goodbye.
+
+<h1>Instructions</h1>
+  <li><a href="http://archlinuxarm.org/platforms/armv7/broadcom/raspberry-pi-2#qt-platform_tabs-ui-tabs2">Install Arch on a fresh sd card following the following instructions</a></li>
   <li>Boot the Raspberry Pi 2</li>
-  <li>Download and run the following script</li>
-  <li><a href="http://s3.amazonaws.com/spuddrepo/arch/setup_qpi.sh">Run this script on your Raspberry Pi 2 Arch Install</a></li>
-  <li>I personally normally allow root ssh login and then grab the script via curl</li>
+  <li>Download and run the following <a href="http://s3.amazonaws.com/spuddrepo/arch/setup_qpi.sh">script</a> on the RPI 2</li>
+  <li>I personally normally do this by allowing root login via ssh and then grabbing the script via curl</li>
   <li>curl http://s3.amazonaws.com/spuddrepo/arch/setup_qpi.sh > setup_qpi.sh</li>
   <li>bash setup_qpi.sh</li>
   <li>I would strongly recommend increasing the video ram to 512 in /boot/config.txt (The compositor alone requires more than the default 64)</li>
