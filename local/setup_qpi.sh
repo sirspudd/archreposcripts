@@ -72,4 +72,4 @@ setup_nfs
 # we are initially deploying as root from creator
 allow_root_login_ssh
 
-systemctl enable pi-compositor@root
+systemctl enable pi-launcher@root
