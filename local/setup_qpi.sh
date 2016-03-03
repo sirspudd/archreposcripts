@@ -1,25 +1,30 @@
 #!/usr/bin/env bash
 
 set -u
-set -e
+#set -e
 
 script_dir="$(dirname "$(readlink -f "$0")")"
 local_repo=${script_dir}/local
+rasp_pi_1=false
+
+if [[ -n "$(uname -a | grep armv6l)" ]]; then
+  rasp_pi_1=true
+fi
 
 sanity_check() {
   if [[ "$(whoami)" != "root" ]]; then
     echo "This needs to be run as root"
     exit -1
   fi
- 
+
   echo "Achtung! Chips! Heads! Fire! Compound fracture ahoy!"
   echo "This script: enables root login/exposes your rootfs vs NFS!"
-  echo "" 
+  echo ""
   echo "This is gonna configure your device for development against the qt-sdk packages"
   echo "I urge you to read the script before proceeding and accept no responsibility for the fallout"
-  echo "" 
+  echo ""
   echo "USE AT YOUR OWN RISK: Do you wish to proceed? [yespleaseonwards]"
-  
+
   read i
   if [[ "$i" != "yespleaseonwards" ]]; then
     echo "Bailing for want of the magic phrase"
@@ -38,8 +43,12 @@ EOF
 
 setup_avahi() {
   pacman -S avahi nss-mdns --noconfirm
-  
+
+if $rasp_pi_1; then
+  hostnamectl set-hostname qpi
+else
   hostnamectl set-hostname qpi2
+fi
   systemctl enable avahi-daemon
 }
 
@@ -61,15 +70,17 @@ setup_nfs() {
 }
 
 sanity_check
-# Add our arch repo
-install_qpi_repo
-pacman -Sy
-pacman -S pi-compositor --noconfirm
+
 # we are relying on hostname advertizing via mdns
 setup_avahi
 # required for compilation of Qt libs on host
 setup_nfs
 # we are initially deploying as root from creator
 allow_root_login_ssh
+
+# Add our arch repo
+install_qpi_repo
+pacman -Sy
+pacman -S pi-compositor --noconfirm
 
 systemctl enable pi-launcher@root
