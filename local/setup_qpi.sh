@@ -17,6 +17,11 @@ sanity_check() {
     exit -1
   fi
 
+  if [[ -z "$(uname -a | grep arm)" ]]; then
+    echo "This script is intended for the pi, not the host"
+    exit -1
+  fi
+
   echo "Achtung! Chips! Heads! Fire! Compound fracture ahoy!"
   echo "This script: enables root login/exposes your rootfs vs NFS!"
   echo ""

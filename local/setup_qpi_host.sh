@@ -11,6 +11,11 @@ sanity_check() {
     echo "This needs to be run as root"
     exit -1
   fi
+
+  if [[ -n "$(uname -a | grep arm)" ]]; then
+    echo "This script is intended for the host, not the pi"
+    exit -1
+  fi
 }
 
 install_qpi_repo() {
