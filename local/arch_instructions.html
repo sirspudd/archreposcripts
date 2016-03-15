@@ -4,17 +4,20 @@
 </head>
 <body>
 <h1>Overview</h1>
-Qt can run quite nicely on the Pi(s), but the packaged versions shipped with most distros use Mesa out of the box, and people tend to run X11 on the pi for graphical purposes, and that seems like a damn shame.
+Qt can run quite nicely on the Pi(s), but the packaged versions shipped with most distros use Mesa out of the box, and people tend to run X11 on the pi for graphical purposes, and that seems like a damn shame given the GPU is decent and can actually do a fair amount.
 
-The point of this exercise is to make 2 packages conveniently available, one for the Raspberry Pi 2 and one for the host machine, which once installed allow you to crosscompile for the Raspberry Pi 2 from your Arch host machine.
+The point of this exercise is to make 2 packages conveniently available, one for the Raspberry Pi 2 and one for the host machine, which once installed allow you to cross compile for the Raspberry Pi 2 from your Arch host machine.
 
-The AUR recipes used to generate the installed packages are here (incase you are into that kind of thing):
+The AUR recipes used to generate the installed packages are here (in case you are into that kind of thing):
 
 <h2>AUR recipes</h2>
 <li><a href=https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=qt-sdk-raspberry-pi2>qt-sdk-raspberry-pi2-target-libs,qt-sdk-raspberry-pi2</a></li>
 <li><a href=https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=pi-compositor>pi-compositor</a></li>
 
 <br>
+
+I am supplying packages, which you can simply consume, or magical dangerous bash scripts which you can embrace in disdain for your sovereignty.
+
 Or you can simply proceed to making it happen by following these instructions. Clearly you proceed at your own risk, and neither myself nor my employer provide any binding guarantees or assurances. Kiss your poodle goodbye.
 
 <h1>Instructions</h1>
@@ -24,9 +27,11 @@ Or you can simply proceed to making it happen by following these instructions. C
   <li>I personally normally do this by allowing root login via ssh and then grabbing the script via curl</li>
   <li>curl http://s3.amazonaws.com/spuddrepo/arch/setup_qpi.sh > setup_qpi.sh</li>
   <li>bash setup_qpi.sh</li>
-  <li>I would strongly recommend increasing the video ram to 512 in /boot/config.txt (The compositor alone requires more than the default 64)</li>
-  <li><a href="http://s3.amazonaws.com/spuddrepo/arch/setup_qpi_host.sh">Run this script on your Arch host</a></li>
+  <li>I would strongly recommend increasing the video ram to 512 in /boot/config.txt (The compositor alone requires more than the default 64 due to the sexy background wave effect)</li>
+  <li>Run this <a href="http://s3.amazonaws.com/spuddrepo/arch/setup_qpi_host.sh">script</a> on your Arch host machine</li>
+  <li>In order for mdns hostname resolution to work, you have to enable <a href="https://wiki.archlinux.org/index.php/avahi#Hostname_resolution">this</a> which I can't safely automate</li>
   <li>Mount your Arch sysroot on your host (recommend NFS, mounting "/" under /mnt/pi)</li>
   <li>You are now set to use Qt Creator to develop and deploy to your Raspberry Pi 2</li>
+  <li>Please note, you might have to explicitly "test" the device in the device page of Qt Creator in order for deployment to work. (pessimistic)</li>
 </body>
 <html>
