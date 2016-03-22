@@ -14,12 +14,14 @@ for dir in $(ls -d */); do
   cd ..
 done
 
-echo "Refreshed DBs; do you want to deploy to s3?"
-read i
+s3cmd sync -F --delete-removed ~/repo/local/* s3://spuddrepo/arch
 
-if [[ "$i" = "yes" ]]; then
-  deploy_dir="${script_dir}/s3/arch"
-  rm -Rf ${deploy_dir}
-  mkdir -p ${deploy_dir}
-  cp -rL ${local_repo}/* ${deploy_dir}
-fi
+#echo "Refreshed DBs; do you want to deploy to s3?"
+#read i
+#
+#if [[ "$i" = "yes" ]]; then
+#  deploy_dir="${script_dir}/s3/arch"
+#  rm -Rf ${deploy_dir}
+#  mkdir -p ${deploy_dir}
+#  cp -rL ${local_repo}/* ${deploy_dir}
+#fi
