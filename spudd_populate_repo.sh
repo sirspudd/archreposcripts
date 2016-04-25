@@ -1,7 +1,24 @@
 #!/usr/bin/env bash
 
+#set -x
+
+args=""
+
+while getopts ":D" opt; do
+  case $opt in
+    D)
+      echo "Deleting any locally removed files" >&2
+      args="${args} --delete-removed"
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      exit 1
+      ;;
+  esac
+done
+
 script_dir="$(dirname "$(readlink -f "$0")")"
-local_repo=${script_dir}/local
+local_repo=${script_dir}/local/arch
 
 cd ${local_repo}
 for dir in $(ls -d */); do
@@ -14,14 +31,6 @@ for dir in $(ls -d */); do
   cd ..
 done
 
-s3cmd sync -F --delete-removed ${local_repo}/* s3://spuddrepo/arch/
+s3cmd sync -F ${args} ${local_repo} s3://spuddrepo/
 
-#echo "Refreshed DBs; do you want to deploy to s3?"
-#read i
-#
-#if [[ "$i" = "yes" ]]; then
-#  deploy_dir="${script_dir}/s3/arch"
-#  rm -Rf ${deploy_dir}
-#  mkdir -p ${deploy_dir}
-#  cp -rL ${local_repo}/* ${deploy_dir}
-#fi
+exit 0
