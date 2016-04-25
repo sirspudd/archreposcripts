@@ -14,7 +14,7 @@ for dir in $(ls -d */); do
   cd ..
 done
 
-s3cmd sync -F --delete-removed ~/repo/local/* s3://spuddrepo/arch/
+s3cmd sync -F --delete-removed ${local_repo}/* s3://spuddrepo/arch/
 
 #echo "Refreshed DBs; do you want to deploy to s3?"
 #read i
