@@ -20,16 +20,30 @@ done
 script_dir="$(dirname "$(readlink -f "$0")")"
 local_repo=${script_dir}/local/arch
 
-cd ${local_repo}
-for dir in $(ls -d */); do
-  echo "Operating on $dir"
-  cd ${local_repo}/${dir}
-  for file in $(ls *.pkg.tar.xz); do
-    echo "Adding $file to $dir DB"
-    repo-add qpi.db.tar.gz $file 
+descend() {
+  local current_dir=${1}
+  for dir in $(ls -d */ 2>/dev/null); do
+    cd ${current_dir}/${dir}
+    tally
+    descend ${PWD}
   done
-  cd ..
-done
+  cd ${current_dir}
+}
+
+tally() {
+  local db_name=qpi
+
+  if [[ -n "$(echo $PWD | grep test)" ]]; then
+    db_name="${db_name}-testing"
+  fi
+
+  for file in $(ls *.pkg.tar.xz 2>/dev/null); do
+    echo "Adding $file to $dir DB"
+    repo-add ${db_name}.db.tar.gz $file
+  done
+}
+
+descend ${local_repo}
 
 s3cmd sync -F ${args} ${local_repo} s3://spuddrepo/
 
